@@ -52,7 +52,7 @@ class SecurityController extends AbstractController
             $user = $form->getData();
             $user->setPassword($passwordEncoder->encodePassword(
                 $user,
-                $request->request->get('password')
+                $form['plainPassword']->getData()
             ));
 
             $em = $this->getDoctrine()->getManager();
