@@ -69,6 +69,23 @@ class ArticleFormType extends AbstractType
                 'widget' => 'single_text'
             ]);
         }
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                /** @var Article|null $data */
+                $data = $event->getData();
+                if (!$data) {
+                    return;
+                }
+                $this->setupSpecificLocationNameField(
+                    $event->getForm(),
+                    $data->getLocation()
+                );
+            }
+        );
+
+
         $builder->get('location')->addEventListener(
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) {
